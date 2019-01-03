@@ -1,11 +1,8 @@
 function borderPoints = getBorderPoints(img, d)
-    
     borderPoints = [];
     imgSize = size(img);
-    
     steps = floor(imgSize ./ d);
-    % i -> Y
-    for i = 1:steps(1)
+    for i = 1:steps(1) % i -> Y
         row = img(i * d, :);
         for k = 2:length(row)
             if xor(row(k), row(k - 1))
@@ -16,9 +13,7 @@ function borderPoints = getBorderPoints(img, d)
             end
         end
     end
-    
-    % i -> X
-    for i = 1:steps(2)
+    for i = 1:steps(2) % i -> X
         col = img(:, i * d);
         for k = 2:length(col)
             if xor(col(k), col(k - 1))

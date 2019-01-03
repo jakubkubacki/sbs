@@ -1,4 +1,5 @@
-function simulationState = runSimulation(innerPointsLen, step, maxLoop, filePath, filePath2)
+function simulationState = runSimulation(innerPointsLen, step, maxLoop, ...
+        filePath, filePath2)
     % Funkcja uruchamiajaca symulacje. 
     % innerPointsLen - ilosc punktow wewnetrznych,
     % step - dlugosc przesuniecia,
@@ -11,7 +12,8 @@ function simulationState = runSimulation(innerPointsLen, step, maxLoop, filePath
 
     saveFreq = 100;
     
-    simulationState = initialize(filePath, filePath2, innerPointsLen, step);
+    simulationState = initialize(filePath, filePath2, ...
+        innerPointsLen, step);
     simulationState.savedEnergies = [];
     simulationState.savedPositions = {};
     

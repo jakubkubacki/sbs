@@ -1,4 +1,5 @@
-function simulationState = initialize(filePath, filePath2, innerPointsLen, step)
+function simulationState = initialize(filePath, filePath2, ...
+        innerPointsLen, step)
     
     % 0. Setup state
     simulationState = {};
@@ -9,7 +10,8 @@ function simulationState = initialize(filePath, filePath2, innerPointsLen, step)
     simulationState.consts.step = step;
     
     % Initialization based on image1
-    simulationState = initializeWithImage(simulationState, filePath, innerPointsLen);
+    simulationState = initializeWithImage(simulationState, filePath, ...
+        innerPointsLen);
     
     % 7. Get eq distance
     eqDistance = getEqDistance(simulationState);
@@ -20,10 +22,13 @@ function simulationState = initialize(filePath, filePath2, innerPointsLen, step)
         = initializeWithImage(simulationState, filePath2, innerPointsLen);
     
     % 9. Get energy value
-    energies = getEnergies(innerPoints, borderPoints, neighbours, eqDistance);
+    energies = getEnergies(innerPoints, borderPoints, neighbours, ...
+        eqDistance);
     simulationState.energies = energies;
     
-    function [simulationState, innerPoints, borderPoints, neighbours] = initializeWithImage(simulationState, filePath, innerPointsLen)
+    function [simulationState, innerPoints, borderPoints, neighbours] ...
+            = initializeWithImage(simulationState, ...
+                filePath, innerPointsLen)
         % 1. Load image
         img = loadImage(filePath);
         simulationState.img = img;
@@ -34,7 +39,8 @@ function simulationState = initialize(filePath, filePath2, innerPointsLen, step)
         
         % 3. Set up zones
         area = sum(sum(img));
-        sbZnSize = sqrt(6 * area / (innerPointsLen + length(borderPoints)));
+        sbZnSize = sqrt(6 * area / ...
+            (innerPointsLen + length(borderPoints)));
         simulationState.consts.sbZnSize = sbZnSize;
         simulationState.zones = cell(ceil(imgSize ./ sbZnSize));
         

@@ -13,7 +13,8 @@ function [simulationState] = modifyPoint(simulationState, pointIndex)
             nIndex = neighbours(1, i);
             p2 = simulationState.points(nIndex);
             
-            distance = eqDistance - sqrt(sum((p2 - movedPoint) .* (p2 - movedPoint)));
+            distance = eqDistance - sqrt(sum((p2 - movedPoint) ...
+                .* (p2 - movedPoint)));
             energy = distance * distance;
             
             newEnergy(i) = energy;
@@ -23,12 +24,15 @@ function [simulationState] = modifyPoint(simulationState, pointIndex)
         oldSum = sum(oldEnergy);
         
         if newSum < oldSum
-            simulationState = setChange(simulationState, newEnergy, pointIndex, movedPoint);
-            simulationState = updateZone(point, movedPoint, pointIndex, simulationState);
+            simulationState = setChange(simulationState, ...
+                newEnergy, pointIndex, movedPoint);
+            simulationState = updateZone(point, movedPoint, ...
+                pointIndex, simulationState);
         else
             W = exp(-abs(oldSum - newSum));
             if W > rand
-                simulationState = setChange(simulationState, newEnergy, pointIndex, movedPoint);
+                simulationState = setChange(simulationState, ...
+                    newEnergy, pointIndex, movedPoint);
             end
         end
     end
@@ -42,19 +46,26 @@ function [simulationState] = modifyPoint(simulationState, pointIndex)
             .* step .* [1, 1];
     end
     
-    function simulationState = updateZone(prevPosition, nextPosition, pointIndex, simulationState)
-        prevIndex = fliplr(ceil(prevPosition ./ simulationState.consts.sbZnSize));
-        nextIndex = fliplr(ceil(nextPosition ./ simulationState.consts.sbZnSize));
+    function simulationState = updateZone(prevPosition, nextPosition, ...
+            pointIndex, simulationState)
+        prevIndex = fliplr(ceil(prevPosition ./ ...
+            simulationState.consts.sbZnSize));
+        nextIndex = fliplr(ceil(nextPosition ./ ...
+            simulationState.consts.sbZnSize));
         
         if prevIndex ~= nextIndex
             try
-                prevZone = simulationState.zones{prevIndex(1), prevIndex(2)};
+                prevZone = simulationState.zones{prevIndex(1), ...
+                    prevIndex(2)};
                 prevZone = prevZone(prevZone ~= pointIndex);
-                simulationState.zones{prevIndex(1), prevIndex(2)} = prevZone;
+                simulationState.zones{prevIndex(1), ...
+                    prevIndex(2)} = prevZone;
                 
-                nextZone = simulationState.zones{nextIndex(1), nextIndex(2)};
+                nextZone = simulationState.zones{nextIndex(1), ...
+                    nextIndex(2)};
                 nextZone = [nextZone, pointIndex];
-                simulationState.zones{nextIndex(1), nextIndex(2)} = nextZone;
+                simulationState.zones{nextIndex(1), ...
+                    nextIndex(2)} = nextZone;
             catch e
                 disp(e);
             end
